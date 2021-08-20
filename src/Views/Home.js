@@ -42,7 +42,7 @@ export default function Home() {
   const [visible, setVisible] = useState(false);
   const [todoText, setTodoText] = useState('');
   const [taskidCounter, setTaskidCounter] = useState(4);
-  const [scrollEnabled, setScrollEnabled] = useState(true);
+  const [scrollEnabled, setScrollEnabled] = useState(false);
   useEffect(() => {
     if (visible) {
       fadeIn();
@@ -57,7 +57,11 @@ export default function Home() {
       useNativeDriver: false,
     }).start();
   };
-
+  useEffect(() => {
+    if (tasks.length>3) {
+      setScrollEnabled(true)
+    } 
+  }, [tasks]);
   const renderItem = (item, index) => {
     if (!item.isCompleted) {
       return (
@@ -169,7 +173,10 @@ export default function Home() {
     setTasks([...tasks, todoItem]);
   };
   const onDragEnd = (startIndex, endIndex) => {
-    setScrollEnabled(true);
+    if(tasks.length>3){
+      setScrollEnabled(true);
+    }
+  
     console.log('START', startIndex, 'end', endIndex);
     if (deleteStatus === 2) {
       if (startIndex === endIndex) {
@@ -214,8 +221,8 @@ export default function Home() {
         </View>
       </View>
 
-      <ScrollView scrollEnabled={scrollEnabled}>
-        <View style={{paddingTop: 30, width: '100%', minHeight: height}}>
+      <ScrollView scrollEnabled={scrollEnabled} >
+        <View style={{paddingTop: 30, width: '100%', minHeight: height- 150}}>
           <DragSortableView
             dataSource={tasks}
             parentWidth={parentWidth}
