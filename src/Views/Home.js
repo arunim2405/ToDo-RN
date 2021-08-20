@@ -157,7 +157,7 @@ export default function Home() {
     );
 
     if (
-      gestureState.moveY + (StatusBar.currentHeight | 0) + deleteHeight >=
+      gestureState.moveY + (StatusBar.currentHeight | 0) + deleteHeight + 30 >=
       height
     ) {
       setDeleteStatus(2);
@@ -322,6 +322,8 @@ export default function Home() {
           </Button>
           <View style={{margin: 12, marginTop: 80, color: 'black'}}>
             <TextInput
+              color="black"
+              placeholderTextColor="gray"
               placeholder="What would you like to add?"
               borderColor="white"
               style={{fontSize: 24}}
