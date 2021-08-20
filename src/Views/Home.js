@@ -21,20 +21,21 @@ const parentWidth = width;
 const childrenWidth = width;
 const childrenHeight = 200;
 const deleteHeight = 60;
-
+import TodoCard from "../Components/TodoCard"
 export default function Home() {
   const [tasks, setTasks] = useState([
     {
       id: 1,
-      task: 'First Task todo',
+      task: 'Make UX Changes',
       dueDate: '8th Aug',
       isCompleted: false,
     },
+ 
     {
-      id: 2,
-      task: 'Second Task todo',
-      dueDate: '8th Aug',
-      isCompleted: false,
+      id: 3,
+      task: 'Integrate Payment Gateway',
+      dueDate: '7th Aug',
+      isCompleted: true,
     },
   ]);
   const [deleteStatus, setDeleteStatus] = useState(0);
@@ -86,6 +87,9 @@ export default function Home() {
   };
 
   const renderItem = (item, index) => {
+   if(!item.isCompleted){
+
+   
     return (
       <Div
         mx="sm"
@@ -99,7 +103,8 @@ export default function Home() {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <View>
+        
+              <View>
             <Text color="black" fontWeight="500" fontSize="xl">
               {item.task}
             </Text>
@@ -114,10 +119,52 @@ export default function Home() {
               fontSize="xl"
               fontWeight="bold"
             />
-          </View>
+          </View>         
         </View>
       </Div>
     );
+        }else{
+          return(<>
+          <View style={{flexDirection:"row", display: 'flex'}}>
+          <Div
+        ml="sm"
+        alignItems="center"
+        justifyContent="center"
+        p="xl"
+        shadow="xs"
+        bg="green500"
+        style={{width:  75, zIndex: 99}}>
+           <Icon
+              name="checkcircleo"
+              color="white"
+              fontSize="2xl"
+              fontWeight="bold"
+            />
+
+        </Div>
+      <Div
+        mr="sm"
+        p="xl"
+        shadow="xs"
+        bg="white"
+        style={{width: parentWidth - 32-75, zIndex: 99}}>
+          <View>
+            <Text color="black" fontWeight="500" fontSize="xl">
+              {item.task}
+            </Text>
+            <Text color="grey" fontWeight="500" fontSize="md" mt={5}>
+              Due by {item.dueDate}
+            </Text>
+          </View>
+
+
+        </Div>
+
+          </View>
+          
+          
+          </>)
+        }
   };
   const onDragStart = item => {
     console.log('ITEM', item);
@@ -235,8 +282,13 @@ export default function Home() {
             onDragging={onDragging}
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
+            // onClickItem={(items,item,idx)=>{
+            //   let databkp=tasks
+            //   databkp[idx].isCompleted=true
+            //   setTasks(databkp)
+            // }}
             onDataChange={data => {
-              console.log(data);
+              //console.log(data);
               setTasks(data);
               if (deleteIndex != null) {
                 const deleteIndexbkp = deleteIndex;
