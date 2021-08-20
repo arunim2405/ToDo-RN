@@ -142,12 +142,12 @@ export default function Home() {
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
       toValue: width,
-      duration: 1000,
+      duration: 700,
       useNativeDriver: false,
     }).start();
     Animated.timing(fadeBorder, {
       toValue: 0,
-      duration: 1000,
+      duration: 700,
       useNativeDriver: false,
     }).start();
   };
