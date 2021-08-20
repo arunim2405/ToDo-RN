@@ -3,8 +3,6 @@ import {
   StyleSheet,
   View,
   SafeAreaView,
-  Touchable,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
   StatusBar,
@@ -13,15 +11,15 @@ import {
   Animated,
 } from 'react-native';
 import {Text, Avatar, Icon} from 'react-native-magnus';
-import {DragSortableView, AutoDragSortableView} from 'react-native-drag-sort';
-import {Button, Div, Modal, Input} from 'react-native-magnus';
+import {DragSortableView} from 'react-native-drag-sort';
+import {Button, Div, Modal} from 'react-native-magnus';
 const {width, height} = Dimensions.get('window');
 const gestureRootViewStyle = {flex: 1};
 const parentWidth = width;
 const childrenWidth = width;
 const childrenHeight = 200;
 const deleteHeight = 60;
-import TodoCard from "../Components/TodoCard"
+import TodoCard from '../Components/TodoCard';
 export default function Home() {
   const [tasks, setTasks] = useState([
     {
@@ -30,7 +28,7 @@ export default function Home() {
       dueDate: '8th Aug',
       isCompleted: false,
     },
- 
+
     {
       id: 3,
       task: 'Integrate Payment Gateway',
@@ -45,31 +43,6 @@ export default function Home() {
   const [todoText, setTodoText] = useState('');
   const [taskidCounter, setTaskidCounter] = useState(4);
   const [scrollEnabled, setScrollEnabled] = useState(true);
-  // let deleteIndex=null
-  //   const renderItem=({item,index})=>{
-  //       return (
-  //         <DraxView
-  //         style={{flex: 1,height:50 }}
-  //         draggingStyle={styles.dragging}
-  //         dragReleasedStyle={styles.dragging}
-  //         hoverDraggingStyle={styles.hoverDragging}
-  //         dragPayload={item}
-  //         longPressDelay={150}
-  //         key={index}
-  //       >
-
-  //         <Text fontSize="4xl">{item.task}</Text>
-
-  //       </DraxView>
-
-  //       )
-  //   }
-
-  //   const snackBtn=({item, index})=>{
-  //     return (
-
-  //       );
-  //   }
   useEffect(() => {
     if (visible) {
       fadeIn();
@@ -78,7 +51,6 @@ export default function Home() {
     }
   }, [visible]);
   const fadeOut = () => {
-    // Will change fadeAnim value to 0 in 3 seconds
     Animated.timing(fadeAnim, {
       toValue: 60,
       duration: 500,
@@ -87,84 +59,77 @@ export default function Home() {
   };
 
   const renderItem = (item, index) => {
-   if(!item.isCompleted){
-
-   
-    return (
-      <Div
-        mx="sm"
-        p="xl"
-        shadow="xs"
-        bg="white"
-        style={{width: parentWidth - 32, zIndex: 99}}>
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-        
+    if (!item.isCompleted) {
+      return (
+        <Div
+          mx="sm"
+          p="xl"
+          shadow="xs"
+          bg="white"
+          style={{width: parentWidth - 32, zIndex: 99}}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <View>
+              <Text color="black" fontWeight="500" fontSize="xl">
+                {item.task}
+              </Text>
+              <Text color="grey" fontWeight="500" fontSize="md" mt={5}>
+                Due by {item.dueDate}
+              </Text>
+            </View>
+            <View>
+              <Icon
+                name="clockcircleo"
+                color="black"
+                fontSize="xl"
+                fontWeight="bold"
+              />
+            </View>
+          </View>
+        </Div>
+      );
+    } else {
+      return (
+        <>
+          <View style={{flexDirection: 'row', display: 'flex'}}>
+            <Div
+              ml="sm"
+              alignItems="center"
+              justifyContent="center"
+              p="xl"
+              shadow="xs"
+              bg="green500"
+              style={{width: 75, zIndex: 99}}>
+              <Icon
+                name="checkcircleo"
+                color="white"
+                fontSize="2xl"
+                fontWeight="bold"
+              />
+            </Div>
+            <Div
+              mr="sm"
+              p="xl"
+              shadow="xs"
+              bg="white"
+              style={{width: parentWidth - 32 - 75, zIndex: 99}}>
               <View>
-            <Text color="black" fontWeight="500" fontSize="xl">
-              {item.task}
-            </Text>
-            <Text color="grey" fontWeight="500" fontSize="md" mt={5}>
-              Due by {item.dueDate}
-            </Text>
+                <Text color="black" fontWeight="500" fontSize="xl">
+                  {item.task}
+                </Text>
+                <Text color="grey" fontWeight="500" fontSize="md" mt={5}>
+                  Due by {item.dueDate}
+                </Text>
+              </View>
+            </Div>
           </View>
-          <View>
-            <Icon
-              name="clockcircleo"
-              color="black"
-              fontSize="xl"
-              fontWeight="bold"
-            />
-          </View>         
-        </View>
-      </Div>
-    );
-        }else{
-          return(<>
-          <View style={{flexDirection:"row", display: 'flex'}}>
-          <Div
-        ml="sm"
-        alignItems="center"
-        justifyContent="center"
-        p="xl"
-        shadow="xs"
-        bg="green500"
-        style={{width:  75, zIndex: 99}}>
-           <Icon
-              name="checkcircleo"
-              color="white"
-              fontSize="2xl"
-              fontWeight="bold"
-            />
-
-        </Div>
-      <Div
-        mr="sm"
-        p="xl"
-        shadow="xs"
-        bg="white"
-        style={{width: parentWidth - 32-75, zIndex: 99}}>
-          <View>
-            <Text color="black" fontWeight="500" fontSize="xl">
-              {item.task}
-            </Text>
-            <Text color="grey" fontWeight="500" fontSize="md" mt={5}>
-              Due by {item.dueDate}
-            </Text>
-          </View>
-
-
-        </Div>
-
-          </View>
-          
-          
-          </>)
-        }
+        </>
+      );
+    }
   };
   const onDragStart = item => {
     console.log('ITEM', item);
@@ -175,7 +140,6 @@ export default function Home() {
   const fadeAnim = useRef(new Animated.Value(60)).current;
   const fadeBorder = useRef(new Animated.Value(30)).current;
   const fadeIn = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(fadeAnim, {
       toValue: width,
       duration: 1000,
@@ -188,7 +152,6 @@ export default function Home() {
     }).start();
   };
   const onDragging = (gestureState, left, top) => {
-    // if (this.isBuffer) return;
     console.log(
       gestureState.moveY + (StatusBar.currentHeight | 0) + deleteHeight,
     );
@@ -197,13 +160,9 @@ export default function Home() {
       gestureState.moveY + (StatusBar.currentHeight | 0) + deleteHeight >=
       height
     ) {
-      // this.isBuffer = true;
       setDeleteStatus(2);
-      //this.setState({deleteStatus: 2},() => {this.isBuffer = false})
     } else if (deleteStatus !== 1) {
-      //  this.isBuffer = true;
       setDeleteStatus(1);
-      // this.setState({deleteStatus: 1},() => {this.isBuffer = false})
     }
   };
   const addTodo = todoItem => {
@@ -218,28 +177,12 @@ export default function Home() {
         newData.splice(startIndex, 1);
         setTasks(newData);
         setDeleteStatus(0);
-        // this.setState({
-        //     tasks: newData,
-        //     deleteStatus: 0,
-        // })
       } else {
-        // const newData = [...tasks]
-        // newData.splice(startIndex,1)
-        // setTasks(newData)
         setDeleteIndex(startIndex);
-        //   deleteIndex = endIndex;
         setDeleteStatus(0);
-
-        // this.setState({
-        //     deleteStatus: 0,
-        // })
       }
     } else {
       setDeleteStatus(0);
-
-      // this.setState({
-      //     deleteStatus: 0,
-      // })
     }
   };
 
@@ -282,21 +225,13 @@ export default function Home() {
             onDragging={onDragging}
             onDragStart={onDragStart}
             onDragEnd={onDragEnd}
-            // onClickItem={(items,item,idx)=>{
-            //   let databkp=tasks
-            //   databkp[idx].isCompleted=true
-            //   setTasks(databkp)
-            // }}
             onDataChange={data => {
               //console.log(data);
               setTasks(data);
               if (deleteIndex != null) {
-                const deleteIndexbkp = deleteIndex;
-                //deleteIndex = null;
                 setDeleteIndex(null);
                 let newData = [...data];
                 newData = newData.filter(item => item.id != activeItem.id);
-                //  newData.splice(deleteIndexbkp,1)
                 setTasks(newData);
               } else if (data.length != tasks.length) {
                 setTasks(data);
@@ -385,7 +320,7 @@ export default function Home() {
             }}>
             <Icon color="black" name="close" fontSize="4xl" fontWeight="bold" />
           </Button>
-          <View style={{margin: 12, marginTop: 80}}>
+          <View style={{margin: 12, marginTop: 80, color: 'black'}}>
             <TextInput
               placeholder="What would you like to add?"
               borderColor="white"
@@ -393,8 +328,6 @@ export default function Home() {
               autoFocus={true}
               value={todoText}
               onChangeText={setTodoText}
-              // focusBorderColor="blue700"
-              //suffix={<Icon name="search" color="gray900" fontFamily="Feather" />}
             />
           </View>
           <View
@@ -420,47 +353,11 @@ export default function Home() {
               style={{marginLeft: 20}}
             />
           </View>
-
-          {/* <TouchableWithoutFeedback  onPress={() => {
-              addTodo({
-                id: taskidCounter,
-                task: todoText,
-                dueDate: '9th Aug',
-                isCompleted: false,
-              });
-              setTaskidCounter(taskidCounter + 1);
-              setVisible(false);
-              setTodoText("");
-            }}>
-            <View style={styles.buttonContainer}>
-              <Animated.View
-                style={[
-                  styles.fadingContainer,
-                  {
-                    backgroundColor:"#4299E1",
-                    width: fadeAnim,
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                    borderRadius: fadeBorder,
-                    position: 'absolute',
-                    bottom: 0,
-                  },
-                ]}>
-                <Text color="white" style={{textAlign: 'center'}} fontSize="6xl">
-              {' '}
-              +{' '}
-            </Text>
-              </Animated.View>
-            </View>
-          </TouchableWithoutFeedback> */}
           <TouchableWithoutFeedback
-            // style={{
-            //   display: 'flex',
-            //   backgroundColor: '#4299E1',
-            //   justifyContent: 'center',
-            //   textAlign: 'center',
-            // }}
             onPress={() => {
+              if (todoText === '') {
+                return;
+              }
               addTodo({
                 id: taskidCounter,
                 task: todoText,
@@ -498,7 +395,6 @@ export default function Home() {
           </TouchableWithoutFeedback>
         </View>
       </Modal>
-      {/* <StatusBar style="auto" /> */}
     </SafeAreaView>
   );
 }
@@ -520,8 +416,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     height: 60,
-    // flex: 1,
-    // backgroundColor:"#4299E1",
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
