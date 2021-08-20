@@ -18,7 +18,7 @@ const gestureRootViewStyle = {flex: 1};
 const parentWidth = width;
 const childrenWidth = width;
 const childrenHeight = 200;
-const deleteHeight = 60;
+const deleteHeight = 120;
 import TodoCard from '../Components/TodoCard';
 export default function Home() {
   const [tasks, setTasks] = useState([
@@ -157,7 +157,7 @@ export default function Home() {
     );
 
     if (
-      gestureState.moveY + (StatusBar.currentHeight | 0) + deleteHeight + 30 >=
+      gestureState.moveY + (StatusBar.currentHeight | 0) + deleteHeight >=
       height
     ) {
       setDeleteStatus(2);
